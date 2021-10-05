@@ -15,6 +15,7 @@ namespace JardinesEF.Servicios.Facades
         void Guardar(Ciudad ciudad);
         bool Existe(Ciudad ciudad);
         bool EstaRelacionado(Ciudad ciudad);
+        List<Ciudad> GetLista();
         int GetCantidad();
         //List<IGrouping<int, Planta>> GetGrupo();
         void Borrar(int id);

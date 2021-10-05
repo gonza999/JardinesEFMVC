@@ -1,5 +1,6 @@
 ﻿using JardinesEf.Entidades.Entidades;
 using JardinesEF.Servicios.Facades;
+using JardinesEF.Web.Clases;
 using JardinesEF.Web.Models.Categoria;
 using System;
 using System.Collections.Generic;
@@ -22,28 +23,8 @@ namespace JardinesEF.Web.Controllers
         public ActionResult Index()
         {
             var lista = _servicio.GetLista();
-            var listaVm = ConstruirListaCategoriaVm(lista);
+            var listaVm = Mapeador.ConstruirListaCategoriaVm(lista);
             return View(listaVm);
-        }
-
-        private List<CategoriaListVm> ConstruirListaCategoriaVm(List<Categoria> lista)
-        {
-            var listaVm = new List<CategoriaListVm>();
-            foreach (var c in lista)
-            {
-                var categoriaVm = ConstruirCategoriaVm(c);
-                listaVm.Add(categoriaVm);
-            }
-            return listaVm;
-        }
-
-        private CategoriaListVm ConstruirCategoriaVm(Categoria c)
-        {
-            return new CategoriaListVm()
-            {
-                CategoriaId = c.CategoriaId,
-                NombreCategoria = c.NombreCategoria
-            };
         }
 
         [HttpGet]
@@ -61,7 +42,7 @@ namespace JardinesEF.Web.Controllers
             {
                 return View(categoriaEditVm);
             }
-            var categoria = ContruirCategoria(categoriaEditVm);
+            var categoria = Mapeador.ContruirCategoria(categoriaEditVm);
             try
             {
                 if (_servicio.Existe(categoria))
@@ -79,15 +60,6 @@ namespace JardinesEF.Web.Controllers
             }
         }
 
-        private Categoria ContruirCategoria(CategoriaEditVm categoriaEditVm)
-        {
-            return new Categoria()
-            {
-                CategoriaId = categoriaEditVm.CategoriaId,
-                NombreCategoria = categoriaEditVm.NombreCategoria,
-                Descripcion = categoriaEditVm.Descripcion
-            };
-        }
 
         [HttpGet]
 
@@ -102,19 +74,11 @@ namespace JardinesEF.Web.Controllers
             {
                 return new HttpNotFoundResult("Codigo de Categoria inexistente");
             }
-            var categoriaEditVm = ConstruirCategoriaEditVm(categoria);
+            var categoriaEditVm = Mapeador.ConstruirCategoriaEditVm(categoria);
             return View(categoriaEditVm);
         }
 
-        private CategoriaEditVm ConstruirCategoriaEditVm(Categoria categoria)
-        {
-            return new CategoriaEditVm()
-            {
-                CategoriaId = categoria.CategoriaId,
-                NombreCategoria = categoria.NombreCategoria,
-                Descripcion = categoria.Descripcion
-            };
-        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -124,7 +88,7 @@ namespace JardinesEF.Web.Controllers
             {
                 return View(categoriaEditVm);
             }
-            var categoria = ContruirCategoria(categoriaEditVm);
+            var categoria = Mapeador.ContruirCategoria(categoriaEditVm);
             try
             {
                 if (_servicio.Existe(categoria))
@@ -155,20 +119,20 @@ namespace JardinesEF.Web.Controllers
             {
                 return new HttpNotFoundResult("Codigo de Categoria inexistente");
             }
-            var categoriaVm = ConstruirCategoriaVm(categoria);
+            var categoriaVm = Mapeador.ConstruirCategoriaVm(categoria);
             return View(categoriaVm);
         }
 
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             var categoria = _servicio.GetEntityPorId(id);
-            var categoriaVm = ConstruirCategoriaVm(categoria);
+            var categoriaVm = Mapeador.ConstruirCategoriaVm(categoria);
             if (_servicio.EstaRelacionado(categoria))
             {
-               
-                ModelState.AddModelError(string.Empty,"Categoria relacionada");
+
+                ModelState.AddModelError(string.Empty, "Categoria relacionada");
                 return View(categoriaVm);
             }
             try

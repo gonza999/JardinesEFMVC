@@ -96,9 +96,16 @@ namespace JardinesEF.Servicios
             }
         }
 
-        public bool EstaRelacionado(Ciudad pais)
+        public bool EstaRelacionado(Ciudad ciudad)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _repositorio.EstaRelacionado(ciudad);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public int GetCantidad()
@@ -151,5 +158,17 @@ namespace JardinesEF.Servicios
             }
         }
 
+        public List<Ciudad> GetLista()
+        {
+            try
+            {
+                return _repositorio.GetLista();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
