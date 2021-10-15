@@ -165,7 +165,7 @@ namespace JardinesEF.Servicios
             }
         }
 
-        public void SetearReservarProducto(int productoId, int cantidad)
+        public void SetearReservarProducto(int productoId, decimal cantidad)
         {
             try
             {

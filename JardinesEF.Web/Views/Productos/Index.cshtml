@@ -1,0 +1,63 @@
+﻿@model IEnumerable<JardinesEF.Web.Models.Producto.ProductoListVm>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lista de Productos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo", "Create",null,new {@class="btn btn-primary" })
+</p>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreLatin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreProveedor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCategoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrecioUnitario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnidadesEnStock)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreLatin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreProveedor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreCategoria)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecioUnitario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnidadesEnStock)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ProductoId }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Detalles", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Borrar", "Delete", new { id = item.ProductoId }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

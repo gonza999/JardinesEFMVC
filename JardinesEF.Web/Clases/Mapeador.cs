@@ -2,6 +2,7 @@
 using JardinesEF.Web.Models.Categoria;
 using JardinesEF.Web.Models.Ciudad;
 using JardinesEF.Web.Models.Pais;
+using JardinesEF.Web.Models.Producto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,6 +132,33 @@ namespace JardinesEF.Web.Clases
                 CiudadId = ciudad.CiudadId,
                 NombreCiudad = ciudad.NombreCiudad,
                 PaisId = ciudad.PaisId
+            };
+        }
+        #endregion
+        #region Productos
+
+        public static List<ProductoListVm> ConstruirListaProductosVm(List<Producto> listaProductos)
+        {
+            var lista = new List<ProductoListVm>();
+            foreach (var p in listaProductos)
+            {
+                var productoVm = ConstruirProductoVm(p);
+                lista.Add(productoVm);
+            }
+            return lista;
+        }
+
+        public static ProductoListVm ConstruirProductoVm(Producto p)
+        {
+            return new ProductoListVm()
+            {
+                ProductoId = p.ProductoId,
+                NombreProducto=p.NombreProducto,
+                NombreLatin=p.NombreLatin,
+                NombreCategoria=p.Categoria.NombreCategoria,
+                NombreProveedor=p.Proveedor.NombreProveedor,
+                PrecioUnitario=p.PrecioUnitario,
+                UnidadesEnStock=p.UnidadesEnStock
             };
         }
         #endregion

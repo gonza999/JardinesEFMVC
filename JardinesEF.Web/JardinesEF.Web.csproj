@@ -148,6 +148,7 @@
     <Compile Include="Controllers\CiudadesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaisesController.cs" />
+    <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -157,6 +158,7 @@
     <Compile Include="Models\Ciudad\CiudadListVm.cs" />
     <Compile Include="Models\Pais\PaisEditVm.cs" />
     <Compile Include="Models\Pais\PaisListVm.cs" />
+    <Compile Include="Models\Producto\ProductoListVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +209,7 @@
     <Content Include="Views\Ciudades\Create.cshtml" />
     <Content Include="Views\Ciudades\Edit.cshtml" />
     <Content Include="Views\Ciudades\Delete.cshtml" />
+    <Content Include="Views\Productos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

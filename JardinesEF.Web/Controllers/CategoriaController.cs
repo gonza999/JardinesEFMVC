@@ -14,16 +14,22 @@ namespace JardinesEF.Web.Controllers
     public class CategoriaController : Controller
     {
         private readonly ICategoriasServicios _servicio;
+        private readonly IProductosServicios _servicioProductos;
 
-        public CategoriaController(ICategoriasServicios servicio)
+        public CategoriaController(ICategoriasServicios servicio,IProductosServicios servicioProductos)
         {
             _servicio = servicio;
+            _servicioProductos = servicioProductos;
         }
         // GET: Categoria
         public ActionResult Index()
         {
             var lista = _servicio.GetLista();
             var listaVm = Mapeador.ConstruirListaCategoriaVm(lista);
+            foreach (var categoriaVm in listaVm)
+            {
+                categoriaVm.CantidadProductos = _servicioProductos.GetCantidad(p=>p.CategoriaId==categoriaVm.CategoriaId);
+            }
             return View(listaVm);
         }
 

@@ -29,7 +29,7 @@ namespace JardinesEF.Datos.Sql.Repositorios
             }
             catch (Exception e)
             {
-                throw new Exception("Error al leer");
+                throw new Exception("Error al leer : " + e.Message);
             }
 
         }
@@ -141,7 +141,9 @@ namespace JardinesEF.Datos.Sql.Repositorios
         {
             try
             {
-                return _context.Productos.OrderBy(c => c.NombreProducto).ToList();
+                return _context.Productos.
+                    OrderBy(c => c.NombreProducto).
+                    ToList();
             }
             catch (Exception e)
             {
@@ -193,12 +195,12 @@ namespace JardinesEF.Datos.Sql.Repositorios
             }
         }
 
-        public void SetearReservarProducto(int productoId, int cantidad)
+        public void SetearReservarProducto(int productoId, decimal cantidad)
         {
             try
             {
                 var productoInDb = _context.Productos.SingleOrDefault(p => p.ProductoId == productoId);
-                productoInDb.UnidadesEnPedido+= cantidad;
+                productoInDb.UnidadesEnPedido+=Convert.ToInt32( cantidad);
                 _context.Entry(productoInDb).State = EntityState.Modified;
             }
             catch (Exception e)
@@ -207,13 +209,13 @@ namespace JardinesEF.Datos.Sql.Repositorios
             }
         }
 
-        public void ActualizarStock(int productoId, int cantidad)
+        public void ActualizarStock(int productoId, decimal cantidad)
         {
             try
             {
                 var productoInDb = _context.Productos.SingleOrDefault(p => p.ProductoId == productoId);
-                productoInDb.UnidadesEnPedido -= cantidad;
-                productoInDb.UnidadesEnStock -= cantidad;
+                productoInDb.UnidadesEnPedido -=Convert.ToInt32(cantidad);
+                productoInDb.UnidadesEnStock -=Convert.ToInt32(cantidad);
                 _context.Entry(productoInDb).State = EntityState.Modified;
             }
             catch (Exception e)

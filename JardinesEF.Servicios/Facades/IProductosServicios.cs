@@ -21,6 +21,6 @@ namespace JardinesEF.Servicios.Facades
         int GetCantidad(Func<Producto, bool> predicate);
         List<Producto> Find(Func<Producto, bool> predicate, int cantidadPorPagina, int paginaActual);
         List<Producto> GetLista(int id);
-        void SetearReservarProducto(int productoId, int cantidad);
+        void SetearReservarProducto(int productoId, decimal cantidad);
     }
 }
