@@ -157,5 +157,23 @@ namespace JardinesEF.Web.Controllers
             }
         }
 
+        public ActionResult Details(int? id)
+        {
+            if (id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var pais = _servicio.GetEntityPorId(id.Value);
+            if (pais==null)
+            {
+                return HttpNotFound("Codigo de Pais Inexistente");
+            }
+            var paisDetailsVm = Mapeador.ConstruirPaisDetailsVm(pais);
+            paisDetailsVm.CantidadCiudades = _servicioCiudades.GetCantidad(c=>c.PaisId==paisDetailsVm.PaisId);
+            paisDetailsVm.Ciudades =Mapeador.ConstruirListaCiudadVm( _servicioCiudades.Find(c=>c.PaisId==paisDetailsVm.PaisId,null,null));
+            return View(paisDetailsVm);
+
+        }
+
     }
 }

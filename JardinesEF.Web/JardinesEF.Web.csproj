@@ -156,6 +156,7 @@
     <Compile Include="Models\Categoria\CategoriaListVm.cs" />
     <Compile Include="Models\Ciudad\CiudadEditVm.cs" />
     <Compile Include="Models\Ciudad\CiudadListVm.cs" />
+    <Compile Include="Models\Pais\PaisDetailsVm.cs" />
     <Compile Include="Models\Pais\PaisEditVm.cs" />
     <Compile Include="Models\Pais\PaisListVm.cs" />
     <Compile Include="Models\Producto\ProductoListVm.cs" />
@@ -210,6 +211,7 @@
     <Content Include="Views\Ciudades\Edit.cshtml" />
     <Content Include="Views\Ciudades\Delete.cshtml" />
     <Content Include="Views\Productos\Index.cshtml" />
+    <Content Include="Views\Paises\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

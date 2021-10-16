@@ -51,6 +51,15 @@ namespace JardinesEF.Web.Clases
                 NombrePais = pais.NombrePais
             };
         }
+        public static PaisDetailsVm ConstruirPaisDetailsVm(Pais pais)
+        {
+            return new PaisDetailsVm()
+            {
+                PaisId = pais.PaisId,
+                NombrePais=pais.NombrePais
+                
+            };
+        }
         #endregion
         #region Categoria
         public static List<CategoriaListVm> ConstruirListaCategoriaVm(List<Categoria> lista)
@@ -161,6 +170,8 @@ namespace JardinesEF.Web.Clases
                 UnidadesEnStock=p.UnidadesEnStock
             };
         }
+
+
         #endregion
     }
 }
