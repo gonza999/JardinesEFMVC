@@ -22,7 +22,7 @@
 </dl>
 
 <p>
-    <a href="##" class="btn btn-primary">Agregar Ciudad</a>
+    <a href="@Url.Action("AddCity","Paises",new { id=Model.PaisId})" class="btn btn-primary">Agregar Ciudad</a>
     <a href="@Url.Action("Edit","Paises")" class="btn btn-warning">Editar Ciudad</a>
     <a href="@Url.Action("Index","Paises")" class="btn btn-success">Volver</a>
 </p>
@@ -50,7 +50,7 @@
                     </td>
                     <td>
                         <a href="##" class="btn btn-warning">Editar</a>
-                        <a href="##" class="btn btn-danger">Borrar</a>
+                        <a href="@Url.Action("DeleteCity","Paises",new {id=item.CiudadId})" class="btn btn-danger">Borrar</a>
                     </td>
                 </tr>
             }
