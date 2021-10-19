@@ -9,7 +9,7 @@ using JardinesEf.Entidades.Entidades;
 
 namespace JardinesEF.Datos.Sql.Repositorios
 {
-    public class ProductosRepositorio:IProductosRepositorio
+    public class ProductosRepositorio : IProductosRepositorio
     {
         private readonly ViveroSqlDbContext _context;
 
@@ -53,11 +53,16 @@ namespace JardinesEF.Datos.Sql.Repositorios
         {
             try
             {
-                _context.Categorias.Attach(producto.Categoria);
-                _context.Proveedores.Attach(producto.Proveedor);
+                if (producto.Categoria != null)
+                {
+                    _context.Categorias.Attach(producto.Categoria);
+                }
+                if (producto.Proveedor != null)
+                {
+                    _context.Proveedores.Attach(producto.Proveedor);
+                }
                 if (producto.ProductoId == 0)
                 {
-                    //Cuando el id=0 entonces la entidad es nueva ==>alta
                     _context.Productos.Add(producto);
                 }
                 else
@@ -104,7 +109,14 @@ namespace JardinesEF.Datos.Sql.Repositorios
 
         public bool EstaRelacionado(Producto producto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _context.DetallesOrdenes.Any(d => d.ProductoId == producto.ProductoId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public int GetCantidad()
@@ -163,16 +175,21 @@ namespace JardinesEF.Datos.Sql.Repositorios
             }
         }
 
-        public List<Producto> Find(Func<Producto, bool> predicate, int cantidad, int pagina)
+        public List<Producto> Find(Func<Producto, bool> predicate, int? cantidad, int? pagina)
         {
             try
             {
-                return _context.Productos
-                    .Where(predicate)
-                    .OrderBy(c => c.NombreProducto)
-                    .Skip(cantidad * (pagina - 1))
-                    .Take(cantidad)
-                    .ToList();
+                IEnumerable<Producto> query = _context.Productos
+                   .Include(c => c.Categoria).AsEnumerable()
+                   .Where(predicate)
+                   .OrderBy(p => p.NombreProducto);
+                if (cantidad.HasValue && pagina.HasValue)
+                {
+                    query = query.Skip(cantidad.Value * (pagina.Value - 1))
+                        .Take(cantidad.Value);
+                }
+                return query.ToList();
+
             }
             catch (Exception e)
             {
@@ -185,7 +202,7 @@ namespace JardinesEF.Datos.Sql.Repositorios
             try
             {
                 return _context.Productos
-                    .Where(p=>p.CategoriaId==categoriaId)
+                    .Where(p => p.CategoriaId == categoriaId)
                     .OrderBy(c => c.NombreProducto)
                     .ToList();
             }
@@ -200,7 +217,7 @@ namespace JardinesEF.Datos.Sql.Repositorios
             try
             {
                 var productoInDb = _context.Productos.SingleOrDefault(p => p.ProductoId == productoId);
-                productoInDb.UnidadesEnPedido+=Convert.ToInt32( cantidad);
+                productoInDb.UnidadesEnPedido += Convert.ToInt32(cantidad);
                 _context.Entry(productoInDb).State = EntityState.Modified;
             }
             catch (Exception e)
@@ -214,8 +231,8 @@ namespace JardinesEF.Datos.Sql.Repositorios
             try
             {
                 var productoInDb = _context.Productos.SingleOrDefault(p => p.ProductoId == productoId);
-                productoInDb.UnidadesEnPedido -=Convert.ToInt32(cantidad);
-                productoInDb.UnidadesEnStock -=Convert.ToInt32(cantidad);
+                productoInDb.UnidadesEnPedido -= Convert.ToInt32(cantidad);
+                productoInDb.UnidadesEnStock -= Convert.ToInt32(cantidad);
                 _context.Entry(productoInDb).State = EntityState.Modified;
             }
             catch (Exception e)

@@ -86,7 +86,14 @@ namespace JardinesEF.Servicios
 
         public bool EstaRelacionado(Producto producto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _repositorio.EstaRelacionado(producto);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public int GetCantidad()
@@ -139,7 +146,7 @@ namespace JardinesEF.Servicios
             }
         }
 
-        public List<Producto> Find(Func<Producto, bool> predicate, int cantidadPorPagina, int paginaActual)
+        public List<Producto> Find(Func<Producto, bool> predicate, int? cantidadPorPagina, int? paginaActual)
         {
             try
             {

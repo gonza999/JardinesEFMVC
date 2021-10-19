@@ -19,7 +19,7 @@ namespace JardinesEF.Servicios.Facades
         //List<IGrouping<int, Planta>> GetGrupo();
         void Borrar(int id);
         int GetCantidad(Func<Producto, bool> predicate);
-        List<Producto> Find(Func<Producto, bool> predicate, int cantidadPorPagina, int paginaActual);
+        List<Producto> Find(Func<Producto, bool> predicate, int? cantidadPorPagina, int? paginaActual);
         List<Producto> GetLista(int id);
         void SetearReservarProducto(int productoId, decimal cantidad);
     }

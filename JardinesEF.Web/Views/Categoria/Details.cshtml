@@ -1,0 +1,68 @@
+﻿@model JardinesEF.Web.Models.Categoria.CategoriaDetailsVm
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalles</h2>
+<h3 class="well">Categoria</h3>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.NombreCategoria)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.NombreCategoria)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.CantidadProductos)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.CantidadProductos)
+    </dd>
+</dl>
+
+<p>
+    <a href="@Url.Action("AddProducto","Categoria",new { id=Model.CategoriaId})" class="btn btn-primary">Agregar Producto</a>
+    <a href="@Url.Action("Edit","Categoria",new { id=Model.CategoriaId})" class="btn btn-warning">Editar Categoria</a>
+    <a href="@Url.Action("Index","Categoria")" class="btn btn-success">Volver</a>
+</p>
+
+<h3 class="well">Productos</h3>
+<table class="table table-bordered table-hover table-striped">
+    <thead style="background-color:darkgray">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Productos[0].NombreProducto)
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Productos.Any())
+        {
+            foreach (var item in Model.Productos)
+            {
+                <tr>
+                    <td>
+                        @item.NombreProducto
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditProducto","Categoria",new {id=item.ProductoId})" class="btn btn-warning">Editar</a>
+                        <a href="@Url.Action("DeleteProducto","Categoria",new {id=item.ProductoId})" class="btn btn-danger">Borrar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" style="text-align:center">
+                    No se han agregado productos todavia
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

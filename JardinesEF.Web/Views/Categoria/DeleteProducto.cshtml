@@ -1,0 +1,44 @@
+﻿@model JardinesEF.Web.Models.Producto.ProductoEditVm
+
+@{
+    ViewBag.Title = "DeleteProducto";
+}
+
+<h2>Borrar producto</h2>
+<h3>Esta seguro de borrar el producto seleccionada?</h3>
+<div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.CategoriaId)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreProducto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreProducto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Categoria.NombreCategoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categoria.NombreCategoria)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Borrar" class="btn btn-primary" /> |
+            @Html.ActionLink("Volver", $"Details/{Model.Categoria.CategoriaId}", null, new { @class = "btn btn-success" })
+        </div>
+    }
+</div>
+
+
+

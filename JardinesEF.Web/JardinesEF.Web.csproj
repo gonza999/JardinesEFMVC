@@ -152,6 +152,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Categoria\CategoriaDetailsVm.cs" />
     <Compile Include="Models\Categoria\CategoriaEditVm.cs" />
     <Compile Include="Models\Categoria\CategoriaListVm.cs" />
     <Compile Include="Models\Ciudad\CiudadEditVm.cs" />
@@ -159,7 +160,9 @@
     <Compile Include="Models\Pais\PaisDetailsVm.cs" />
     <Compile Include="Models\Pais\PaisEditVm.cs" />
     <Compile Include="Models\Pais\PaisListVm.cs" />
+    <Compile Include="Models\Producto\ProductoEditVm.cs" />
     <Compile Include="Models\Producto\ProductoListVm.cs" />
+    <Compile Include="Models\Proveedores\ProveedorListVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +217,10 @@
     <Content Include="Views\Paises\Details.cshtml" />
     <Content Include="Views\Paises\AddCity.cshtml" />
     <Content Include="Views\Paises\DeleteCity.cshtml" />
+    <Content Include="Views\Categoria\Details.cshtml" />
+    <Content Include="Views\Categoria\AddProducto.cshtml" />
+    <Content Include="Views\Categoria\DeleteProducto.cshtml" />
+    <Content Include="Views\Categoria\EditProducto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

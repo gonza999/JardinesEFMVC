@@ -3,6 +3,7 @@ using JardinesEF.Web.Models.Categoria;
 using JardinesEF.Web.Models.Ciudad;
 using JardinesEF.Web.Models.Pais;
 using JardinesEF.Web.Models.Producto;
+using JardinesEF.Web.Models.Proveedores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,8 +101,15 @@ namespace JardinesEF.Web.Clases
                 Descripcion = categoria.Descripcion
             };
         }
+        public static CategoriaDetailsVm ConstruirCategoriaDetailsVm(Categoria categoria)
+        {
+            return new CategoriaDetailsVm()
+            {
+                CategoriaId = categoria.CategoriaId,
+                NombreCategoria=categoria.NombreCategoria
+            };
+        }
 
-        
         #endregion
         #region Ciudad
         public static List<CiudadListVm> ConstruirListaCiudadVm(List<Ciudad> listaCiudades)
@@ -168,6 +176,60 @@ namespace JardinesEF.Web.Clases
                 NombreProveedor=p.Proveedor.NombreProveedor,
                 PrecioUnitario=p.PrecioUnitario,
                 UnidadesEnStock=p.UnidadesEnStock
+            };
+        }
+
+        internal static Producto ConstruirProducto(ProductoEditVm productoEditVm)
+        {
+            return new Producto()
+            {
+                ProductoId = productoEditVm.ProductoId,
+                NombreProducto=productoEditVm.NombreProducto,
+                NombreLatin=productoEditVm.NombreLatin,
+                CategoriaId=productoEditVm.CategoriaId,
+                PrecioUnitario=productoEditVm.PrecioUnitario,
+                UnidadesEnStock=productoEditVm.UnidadesEnStock,
+                ProveedorId=productoEditVm.ProveedorId
+            };
+        }
+
+        public static ProductoEditVm ConstruirProductoEditVm(Producto producto)
+        {
+            return new ProductoEditVm()
+            {
+                ProductoId = producto.ProductoId,
+                NombreProducto=producto.NombreProducto,
+                NombreLatin=producto.NombreLatin,
+                ProveedorId=producto.ProveedorId,
+                CategoriaId=producto.CategoriaId,
+                PrecioUnitario=producto.PrecioUnitario,
+                UnidadesEnStock=producto.UnidadesEnStock
+            };
+        }
+        #endregion
+
+        #region Proveedor
+        public static List<ProveedorListVm> ConstruirListaProveedoresVm(List<Proveedor> listaProveedores)
+        {
+            var lista = new List<ProveedorListVm>();
+            foreach (var p in listaProveedores)
+            {
+                var proveedorVm = ConstruirProveedorVm(p);
+                lista.Add(proveedorVm);
+            }
+            return lista;
+        }
+
+        public static ProveedorListVm ConstruirProveedorVm(Proveedor p)
+        {
+            return new ProveedorListVm()
+            {
+                ProveedorId = p.ProveedorId,
+                NombreProveedor=p.NombreProveedor,
+                CodigoPostal=p.CodigoPostal,
+                Direccion=p.Direccion,
+                NombreCiudad=p.Ciudad.NombreCiudad,
+                CantidadProductos=p.Productos.Count()
             };
         }
 

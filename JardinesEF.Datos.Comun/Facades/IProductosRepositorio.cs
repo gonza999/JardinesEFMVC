@@ -11,7 +11,7 @@ namespace JardinesEF.Datos.Comun.Facades
     {
         List<Producto> GetLista();
         int GetCantidad(Func<Producto, bool> predicate);
-        List<Producto> Find(Func<Producto, bool> predicate, int cantidadPorPagina, int paginaActual);
+        List<Producto> Find(Func<Producto, bool> predicate, int? cantidadPorPagina, int? paginaActual);
         List<Producto> GetLista(int categoriaId);
         void SetearReservarProducto(int productoId, decimal cantidad);
         void ActualizarStock(int productoId, decimal cantidad);

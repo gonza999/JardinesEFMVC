@@ -15,12 +15,15 @@ namespace JardinesEF.Web.Models.Producto
 
         [Display(Name = "Latín")]
         public string NombreLatin { get; set; }
-        [Display(Name = "Proveedor")]
 
-        public string NombreProveedor { get; set; }
         [Display(Name = "Categoria")]
 
         public string NombreCategoria { get; set; }
+
+        [Display(Name = "Proveedor")]
+
+        public string NombreProveedor { get; set; }
+
         [Display(Name = "Precio")]
 
         public decimal PrecioUnitario { get; set; }
