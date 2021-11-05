@@ -4,6 +4,7 @@ using JardinesEF.Web.Clases;
 using JardinesEF.Web.Models.Categoria;
 using JardinesEF.Web.Models.Ciudad;
 using JardinesEF.Web.Models.Producto;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace JardinesEF.Web.Controllers
         private readonly IProductosServicios _servicioProductos;
         private readonly IProveedoresServicios _servicioProveedores;
 
+        private readonly int cantidadPorPaginas=12;
         public CategoriaController(ICategoriasServicios servicio,
             IProductosServicios servicioProductos,IProveedoresServicios servicioProveedores)
         {
@@ -27,15 +29,16 @@ namespace JardinesEF.Web.Controllers
             _servicioProveedores=servicioProveedores;
         }
         // GET: Categoria
-        public ActionResult Index()
+        public ActionResult Index(int? page=null)
         {
+            page = (page ?? 1);
             var lista = _servicio.GetLista();
             var listaVm = Mapeador.ConstruirListaCategoriaVm(lista);
             foreach (var categoriaVm in listaVm)
             {
                 categoriaVm.CantidadProductos = _servicioProductos.GetCantidad(p=>p.CategoriaId==categoriaVm.CategoriaId);
             }
-            return View(listaVm);
+            return View(listaVm.ToPagedList((int)page,cantidadPorPaginas));
         }
 
         [HttpGet]
