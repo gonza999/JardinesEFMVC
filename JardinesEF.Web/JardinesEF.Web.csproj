@@ -154,6 +154,7 @@
     <Compile Include="Clases\PaginadorGenerico.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CiudadesController.cs" />
+    <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaisesController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
@@ -165,6 +166,8 @@
     <Compile Include="Models\Categoria\CategoriaListVm.cs" />
     <Compile Include="Models\Ciudad\CiudadEditVm.cs" />
     <Compile Include="Models\Ciudad\CiudadListVm.cs" />
+    <Compile Include="Models\Cliente\ClienteEditVm.cs" />
+    <Compile Include="Models\Cliente\ClienteListVm.cs" />
     <Compile Include="Models\Pais\PaisDetailsVm.cs" />
     <Compile Include="Models\Pais\PaisEditVm.cs" />
     <Compile Include="Models\Pais\PaisListVm.cs" />
@@ -233,6 +236,8 @@
     <Content Include="Views\Ciudades\Index2.cshtml" />
     <Content Include="Views\Shared\_paginadorRegistros.cshtml" />
     <Content Include="Views\Ciudades\Index3.cshtml" />
+    <Content Include="Views\Clientes\Index.cshtml" />
+    <Content Include="Views\Clientes\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

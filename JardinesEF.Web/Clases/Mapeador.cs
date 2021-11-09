@@ -1,6 +1,7 @@
 ﻿using JardinesEf.Entidades.Entidades;
 using JardinesEF.Web.Models.Categoria;
 using JardinesEF.Web.Models.Ciudad;
+using JardinesEF.Web.Models.Cliente;
 using JardinesEF.Web.Models.Pais;
 using JardinesEF.Web.Models.Producto;
 using JardinesEF.Web.Models.Proveedores;
@@ -234,6 +235,30 @@ namespace JardinesEF.Web.Clases
         }
 
 
+        #endregion
+        #region Cliente
+        public static List<ClienteListVm> ConstruirListaClienteVm(List<Cliente> listaClientes)
+        {
+            var lista = new List<ClienteListVm>();
+            foreach (var c in listaClientes)
+            {
+                var clienteVm = ConstruirClienteVm(c);
+                lista.Add(clienteVm);
+            }
+            return lista;
+        }
+
+        private static ClienteListVm ConstruirClienteVm(Cliente c)
+        {
+            return new ClienteListVm()
+            {
+                ClienteId=c.ClienteId,
+                Apellido=c.Apellido,
+                Nombres=c.Nombres,
+                Ciudad=c.Ciudad.NombreCiudad,
+                Pais=c.Pais.NombrePais
+            };
+        }
         #endregion
     }
 }
