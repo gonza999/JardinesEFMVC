@@ -151,6 +151,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Clases\Listador.cs" />
     <Compile Include="Clases\Mapeador.cs" />
+    <Compile Include="Clases\Operacion.cs" />
     <Compile Include="Clases\PaginadorGenerico.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CiudadesController.cs" />
@@ -238,6 +239,9 @@
     <Content Include="Views\Ciudades\Index3.cshtml" />
     <Content Include="Views\Clientes\Index.cshtml" />
     <Content Include="Views\Clientes\Create.cshtml" />
+    <Content Include="Views\Clientes\Edit.cshtml" />
+    <Content Include="Views\Shared\_mostrarCliente.cshtml" />
+    <Content Include="Views\Clientes\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

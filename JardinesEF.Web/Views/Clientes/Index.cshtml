@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<JardinesEF.Web.Models.Cliente.ClienteListVm>
 @using PagedList.Mvc
+@using JardinesEF.Web.Clases
 @{
     ViewBag.Title = "Index";
 }
@@ -9,6 +10,36 @@
 <p>
     @Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-primary" })
 </p>
+@if (TempData["Operacion"] != null)
+{
+    var operacion = (Operacion)TempData["Operacion"];
+    var msg = TempData["Msg"].ToString();
+
+    switch (operacion)
+    {
+        case Operacion.Agregar:
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Éxito!</strong> @msg
+            </div>
+            break;
+        case Operacion.Borrar:
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Éxito!</strong> @msg
+            </div>
+
+            break;
+        case Operacion.Editar:
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Éxito!</strong> @msg
+            </div>
+
+            break;
+    }
+
+}
 <table class="table table-bordered table-hover">
     <tr>
         <th>

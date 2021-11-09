@@ -236,6 +236,27 @@ namespace JardinesEF.Datos.Sql.Repositorios
             }
         }
 
+        public List<Ciudad> GetLista(int paisId)
+        {
+            try
+            {
+                return _context.Ciudades
+                    .Include(c => c.Pais)
+                    .Where(c=>c.PaisId==paisId)
+                    .OrderBy(c => c.Pais.NombrePais)
+                    .ThenBy(c => c.NombreCiudad)
+                    .AsNoTracking()
+                    .ToList();
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+
+            }
+        }
+
         //public List<Ciudad> GetLista(Func<Ciudad, bool> func, int cantidad, int pagina)
         //{
         //    try

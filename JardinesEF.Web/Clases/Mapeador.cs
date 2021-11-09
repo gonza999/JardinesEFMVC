@@ -75,6 +75,8 @@ namespace JardinesEF.Web.Clases
             return listaVm;
         }
 
+
+
         public static CategoriaListVm ConstruirCategoriaVm(Categoria c)
         {
             return new CategoriaListVm()
@@ -237,6 +239,20 @@ namespace JardinesEF.Web.Clases
 
         #endregion
         #region Cliente
+
+        public static Cliente ConstruirCliente(ClienteEditVm clienteEditVm)
+        {
+            return new Cliente()
+            {
+                ClienteId=clienteEditVm.ClienteId,
+                Nombres=clienteEditVm.Nombres,
+                Apellido=clienteEditVm.Apellido,
+                CiudadId=clienteEditVm.CiudadId,
+                CodigoPostal=clienteEditVm.CodigoPostal,
+                Direccion=clienteEditVm.Direccion,
+                PaisId=clienteEditVm.PaisId
+            };
+        }
         public static List<ClienteListVm> ConstruirListaClienteVm(List<Cliente> listaClientes)
         {
             var lista = new List<ClienteListVm>();
@@ -248,7 +264,7 @@ namespace JardinesEF.Web.Clases
             return lista;
         }
 
-        private static ClienteListVm ConstruirClienteVm(Cliente c)
+        public static ClienteListVm ConstruirClienteVm(Cliente c)
         {
             return new ClienteListVm()
             {
@@ -257,6 +273,20 @@ namespace JardinesEF.Web.Clases
                 Nombres=c.Nombres,
                 Ciudad=c.Ciudad.NombreCiudad,
                 Pais=c.Pais.NombrePais
+            };
+        }
+
+        public static ClienteEditVm ConstruirClienteEditVm(Cliente cliente)
+        {
+            return new ClienteEditVm()
+            {
+                ClienteId = cliente.ClienteId,
+                Nombres = cliente.Nombres,
+                Apellido = cliente.Apellido,
+                CiudadId = cliente.CiudadId,
+                CodigoPostal = cliente.CodigoPostal,
+                Direccion = cliente.Direccion,
+                PaisId = cliente.PaisId
             };
         }
         #endregion

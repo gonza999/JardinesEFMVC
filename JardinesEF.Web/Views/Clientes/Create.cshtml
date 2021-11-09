@@ -4,15 +4,16 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Nueva Ciudad</h2>
+<h2>Nuevo Cliente</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
-    <h4>ClienteEditVm</h4>
     <hr />
+    @*@{ Html.RenderPartial("_mostrarCliente",model); }*@
+
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="form-group">
@@ -71,3 +72,41 @@
     </div>
 </div>
 }
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#PaisId").change(function() {
+                $("#CiudadId").empty();
+            });
+
+            $("#PaisId").change(function() {
+                $("#CiudadId").empty();
+                $("#CiudadId").append('<option value="0">[Seleccionar Ciudad]</option>');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCities")',
+                    dataType: 'json',
+                    data: {
+                        paisId: $("#PaisId").val()
+
+                    },
+                    success: function(ciudades) {
+                        $.each(ciudades ,
+                            function(i, ciudad) {
+                                $("#CiudadId").append('<option value="' + ciudad.CiudadId + '">' + ciudad.NombreCiudad + '</option>');
+                            });
+                    },
+                    error: function(ex) {
+                        alert('Error al intentar cargar las ciudades.' + ex);
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
+}
+

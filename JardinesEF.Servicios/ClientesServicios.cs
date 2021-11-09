@@ -72,11 +72,11 @@ namespace JardinesEF.Servicios
             }
         }
 
-        public bool Existe(Cliente pais)
+        public bool Existe(Cliente cliente)
         {
             try
             {
-                return _repositorio.Existe(pais);
+                return _repositorio.Existe(cliente);
             }
             catch (Exception e)
             {
@@ -84,9 +84,16 @@ namespace JardinesEF.Servicios
             }
         }
 
-        public bool EstaRelacionado(Cliente pais)
+        public bool EstaRelacionado(Cliente cliente)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _repositorio.EstaRelacionado(cliente);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public int GetCantidad()

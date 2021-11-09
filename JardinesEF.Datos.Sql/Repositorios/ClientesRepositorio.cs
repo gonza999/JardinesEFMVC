@@ -54,8 +54,14 @@ namespace JardinesEF.Datos.Sql.Repositorios
         {
             try
             {
-                _context.Paises.Attach(cliente.Pais);
-                _context.Ciudades.Attach(cliente.Ciudad);
+                if (cliente.Pais!=null)
+                {
+                     _context.Paises.Attach(cliente.Pais);
+                }
+                if (cliente.Ciudad!=null)
+                {
+                     _context.Ciudades.Attach(cliente.Ciudad);
+                }
                 if (cliente.ClienteId == 0)
                 {
                     //Cuando el id=0 entonces la entidad es nueva ==>alta
@@ -81,7 +87,7 @@ namespace JardinesEF.Datos.Sql.Repositorios
             }
             catch (Exception e)
             {
-                throw new Exception("Error al intentar guardar un registro");
+                throw new Exception(e.Message);
             }
         }
 
@@ -105,7 +111,14 @@ namespace JardinesEF.Datos.Sql.Repositorios
 
         public bool EstaRelacionado(Cliente cliente)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _context.Ordenes.Any(o=>o.Cliente.ClienteId==cliente.ClienteId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public int GetCantidad()
