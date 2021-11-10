@@ -6,6 +6,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,6 +17,7 @@ namespace JardinesEF.Web.Controllers
         private readonly IProductosServicios _servicio;
         private readonly ICategoriasServicios _servicioCategorias;
         private readonly IProveedoresServicios _servicioProveedores;
+        private readonly string folder = "~/Content/Imagenes/Productos/";
         // GET: Productos
         private readonly int cantidadPorPagina = 12;
         public ProductosController(IProductosServicios servicio, ICategoriasServicios servicioCategorias,
@@ -64,6 +66,142 @@ namespace JardinesEF.Web.Controllers
             ViewBag.Categorias = new SelectList(listaCategorias, "CategoriaId", "NombreCategoria", categoriaSeleccionadaId);
 
             return View(listaVm.ToPagedList((int)page,cantidadPorPagina));
+        }
+
+        public ActionResult Create()
+        {
+            var productoEditVm = new ProductoEditVm()
+            {
+                Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista()),
+                Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista()),
+                Imagen= "SinImagenDisponible.png"
+            };
+            return View(productoEditVm);
+        }
+
+        [HttpPost]
+
+        public ActionResult Create(ProductoEditVm productoEditVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                productoEditVm.Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista());
+                productoEditVm.Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista());
+                productoEditVm.Imagen = "SinImagenDisponible.png";
+                return View(productoEditVm);
+            }
+            var producto = Mapeador.ConstruirProducto(productoEditVm);
+            try
+            {
+                if (_servicio.Existe(producto))
+                {
+                    ModelState.AddModelError(string.Empty,"Producto existente");
+                    productoEditVm.Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista());
+                    productoEditVm.Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista());
+                    productoEditVm.Imagen = "SinImagenDisponible.png";
+                    return View(productoEditVm);
+                }
+                if (productoEditVm.ImagenFile != null)
+                {
+                    producto.Imagen = $"{productoEditVm.ImagenFile.FileName}";
+                }
+                _servicio.Guardar(producto);
+                if (productoEditVm.ImagenFile != null)
+                {
+                    var file = $"{productoEditVm.ImagenFile.FileName}";
+                    var response = FileHelper.UploadPhoto(productoEditVm.ImagenFile, folder, file);
+                }
+                //_servicio.Guardar(producto);
+                TempData["operacion"] = Operacion.Agregar;
+                TempData["Msg"] = "Producto agregado!!!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty,ex.Message);
+                productoEditVm.Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista());
+                productoEditVm.Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista());
+                productoEditVm.Imagen = "SinImagenDisponible.png";
+                return View(productoEditVm);
+            }
+        }
+
+        [HttpGet]
+
+        public ActionResult Edit(int? id)
+        {
+            if (id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var producto = _servicio.GetEntityPorId(id.Value);
+            if (producto==null)
+            {
+                return HttpNotFound("Codigo de Producto no existente");
+            }
+            var productoEditVm = Mapeador.ConstruirProductoEditVm(producto);
+            productoEditVm.Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista());
+            productoEditVm.Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista());
+            if (productoEditVm.Imagen==null)
+            {
+                productoEditVm.Imagen = "SinImagenDisponible.png";
+            }
+            return View(productoEditVm);
+        }
+
+        [HttpPost]
+
+        public ActionResult Edit(ProductoEditVm productoEditVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                productoEditVm.Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista());
+                productoEditVm.Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista());
+                if (productoEditVm.Imagen == null)
+                {
+                    productoEditVm.Imagen = "SinImagenDisponible.png";
+                }
+                return View(productoEditVm);
+            }
+            var producto = Mapeador.ConstruirProducto(productoEditVm);
+            try
+            {
+                if (_servicio.Existe(producto))
+                {
+                    ModelState.AddModelError(string.Empty, "Producto existente");
+                    productoEditVm.Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista());
+                    productoEditVm.Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista());
+                    if (productoEditVm.Imagen == null)
+                    {
+                        productoEditVm.Imagen = "SinImagenDisponible.png";
+                    }
+                    return View(productoEditVm);
+                }
+                if (productoEditVm.ImagenFile != null)
+                {
+                    producto.Imagen = $"{productoEditVm.ImagenFile.FileName}";
+                }
+                _servicio.Guardar(producto);
+                if (productoEditVm.ImagenFile != null)
+                {
+                    var file = $"{productoEditVm.ImagenFile.FileName}";
+                    var response = FileHelper.UploadPhoto(productoEditVm.ImagenFile, folder, file);
+                }
+                TempData["operacion"] = Operacion.Editar;
+                TempData["Msg"] = "Producto Editado!!!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty,ex.Message);
+                productoEditVm.Proveedores = Mapeador.ConstruirListaProveedoresVm(_servicioProveedores.GetLista());
+                productoEditVm.Categorias = Mapeador.ConstruirListaCategoriaVm(_servicioCategorias.GetLista());
+                if (productoEditVm.Imagen == null)
+                {
+                    productoEditVm.Imagen = "SinImagenDisponible.png";
+                }
+                return View(productoEditVm);
+            }
         }
     }
 }

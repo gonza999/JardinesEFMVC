@@ -192,7 +192,11 @@ namespace JardinesEF.Web.Clases
                 CategoriaId=productoEditVm.CategoriaId,
                 PrecioUnitario=productoEditVm.PrecioUnitario,
                 UnidadesEnStock=productoEditVm.UnidadesEnStock,
-                ProveedorId=productoEditVm.ProveedorId
+                ProveedorId=productoEditVm.ProveedorId,
+                Imagen=productoEditVm.Imagen,
+                NivelDeReposicion=productoEditVm.NivelDeReposicion,
+                Suspendido=productoEditVm.Suspendido,
+                UnidadesEnPedido=productoEditVm.UnidadesEnPedido
             };
         }
 
@@ -206,7 +210,11 @@ namespace JardinesEF.Web.Clases
                 ProveedorId=producto.ProveedorId,
                 CategoriaId=producto.CategoriaId,
                 PrecioUnitario=producto.PrecioUnitario,
-                UnidadesEnStock=producto.UnidadesEnStock
+                UnidadesEnStock=producto.UnidadesEnStock,
+                Imagen=producto.Imagen,
+                NivelDeReposicion = producto.NivelDeReposicion,
+                Suspendido = producto.Suspendido,
+                UnidadesEnPedido = producto.UnidadesEnPedido
             };
         }
         #endregion

@@ -22,5 +22,7 @@ namespace JardinesEf.Entidades.Entidades
         public virtual Categoria Categoria { get; set; }
         public virtual ICollection<DetalleOrden> DetalleOrdenes { get; set; }
         public virtual Proveedor Proveedor { get; set; }
+
+        public string Imagen { get; set; }
     }
 }

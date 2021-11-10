@@ -42,5 +42,25 @@ namespace JardinesEF.Web.Models.Producto
 
         [Range(0, 100000, ErrorMessage = "El stock debe estar entre el rango de 0 y 100000")]
         public int UnidadesEnStock { get; set; }
+
+        [Display(Name = "Unidades en pedido")]
+
+        [Range(0, 100000, ErrorMessage = "Debe estar entre el rango de 0 y 100000")]
+        public int UnidadesEnPedido { get; set; }
+
+        [Display(Name = "Nivel de reposicion")]
+
+        [Range(0, 100000, ErrorMessage = "Debe estar entre el rango de 0 y 100000")]
+        public int NivelDeReposicion { get; set; }
+
+
+        [Display(Name = "Suspendido")]
+        public bool Suspendido { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public string Imagen { get; set; }
+
+        public HttpPostedFileBase ImagenFile { get; set; }
+
     }
 }
