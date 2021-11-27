@@ -154,6 +154,7 @@
     <Compile Include="Clases\Mapeador.cs" />
     <Compile Include="Clases\Operacion.cs" />
     <Compile Include="Clases\PaginadorGenerico.cs" />
+    <Compile Include="Controllers\CarritoController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CiudadesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
@@ -163,6 +164,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Carrito\CarritoItemModel.cs" />
+    <Compile Include="Models\Carrito\CarritoModel.cs" />
+    <Compile Include="Models\Carrito\CarritoViewModel.cs" />
     <Compile Include="Models\Categoria\CategoriaDetailsVm.cs" />
     <Compile Include="Models\Categoria\CategoriaEditVm.cs" />
     <Compile Include="Models\Categoria\CategoriaListVm.cs" />
@@ -246,6 +250,7 @@
     <Content Include="Views\Clientes\Delete.cshtml" />
     <Content Include="Views\Productos\Create.cshtml" />
     <Content Include="Views\Productos\Edit.cshtml" />
+    <Content Include="Views\Carrito\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
