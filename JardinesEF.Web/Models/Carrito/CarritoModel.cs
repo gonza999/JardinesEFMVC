@@ -9,7 +9,8 @@ namespace JardinesEF.Web.Models.Carrito
     public class CarritoModel
     {
         private List<CarritoItemModel> items = new List<CarritoItemModel>();
-
+        public DireccionEnvio DireccionEnvio { get; set; }
+        public FacturacionInfo FacturacionInfo { get; set; }
         public IEnumerable<CarritoItemModel> Items
         {
             get { return items; }

@@ -39,6 +39,15 @@
                 <td class="text-right">
                     @((item.Cantidad * item.Producto.PrecioUnitario).ToString("c"))
                 </td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromCart", "Carrito"))
+                    {
+                        @Html.Hidden("productoId", item.Producto.ProductoId)
+                        @Html.HiddenFor(x => x.ReturnUrl)
+                        <input type="submit" value="Borrar" class="btn btn-danger" />
+                    }
+                </td>
+
             </tr>
         }
     </tbody>
@@ -57,4 +66,7 @@
     <a class="btn btn-primary" href="@Model.ReturnUrl">
         Continuar Comprando
     </a>
+    @Html.ActionLink("Checkout", "DireccionEnvio", null, new { @class = "btn btn-success" })
+
 </div>
+

@@ -13,9 +13,17 @@ namespace JardinesEF.Web.Controllers
     public class CarritoController : Controller
     {
         private readonly IProductosServicios _servicio;
-        public CarritoController(IProductosServicios servicio)
+        private readonly IPaisesServicios _servicioPaises;
+        private readonly IClientesServicios _servicioClientes;
+        private readonly ICiudadesServicios _servicioCiudades;
+
+        public CarritoController(IProductosServicios servicio,IPaisesServicios servicioPaises,
+            IClientesServicios servicioClientes,ICiudadesServicios servicioCiudades)
         {
             _servicio = servicio;
+            _servicioPaises = servicioPaises;
+            _servicioCiudades = servicioCiudades;
+            _servicioClientes = servicioClientes;
         }
         // GET: Carrito
         public CarritoController()
@@ -57,6 +65,69 @@ namespace JardinesEF.Web.Controllers
                 Session["Carrito"] = carrito;
             }
             return carrito;
+        }
+        public PartialViewResult ResumenCarrito(CarritoModel carrito)
+        {
+            return PartialView(carrito);
+        }
+        public ActionResult DireccionEnvio()
+        {
+            var direccionEnvio = new DireccionEnvio();
+            direccionEnvio.Paises = Mapeador.ConstruirListaPaisesVm(_servicioPaises.GetLista());
+            direccionEnvio.Ciudades = Mapeador.ConstruirListaCiudadVm(_servicioCiudades.GetLista(0));
+            return View(direccionEnvio);
+        }
+        [HttpPost]
+        public ActionResult DireccionEnvio(DireccionEnvio info)
+        {
+            if (ModelState.IsValid)
+            {
+                CarritoModel carrito = GetCart();
+                carrito.DireccionEnvio = info;
+                return RedirectToAction("FacturacionInfo");
+            }
+            else
+            {
+                info.Paises = Mapeador.ConstruirListaPaisesVm(_servicioPaises.GetLista());
+                info.Ciudades = Mapeador.ConstruirListaCiudadVm(_servicioCiudades.GetLista(0));
+                return View(info);
+            }
+        }
+
+        public ActionResult FacturacionInfo()
+        {
+            FacturacionInfo info = new FacturacionInfo()
+            {
+                Clientes = Mapeador.ConstruirListaClienteVm(_servicioClientes.GetLista())
+            };
+            return View(info);
+        }
+
+        [HttpPost]
+        public ActionResult FacturacionInfo(FacturacionInfo info)
+        {
+            if (ModelState.IsValid)
+            {
+                CarritoModel carrito = GetCart();
+                carrito.FacturacionInfo = info;
+                //Ver en servicio
+                //ProcessOrder(cart);
+                carrito.Clear();
+                return View("OrdenCompleta");
+            }
+            else
+            {
+                info.Clientes = Mapeador.ConstruirListaClienteVm(_servicioClientes.GetLista());
+
+                return View(info);
+            }
+        }
+
+        public JsonResult GetCities(int paisId)
+        {
+            //Database.Configuration.ProxyCreationEnabled = false;
+            var ciudadesVm = Mapeador.ConstruirListaCiudadVm(_servicioCiudades.GetLista(paisId));
+            return Json(ciudadesVm);
         }
 
     }

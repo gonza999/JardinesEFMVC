@@ -167,6 +167,8 @@
     <Compile Include="Models\Carrito\CarritoItemModel.cs" />
     <Compile Include="Models\Carrito\CarritoModel.cs" />
     <Compile Include="Models\Carrito\CarritoViewModel.cs" />
+    <Compile Include="Models\Carrito\DireccionEnvio.cs" />
+    <Compile Include="Models\Carrito\FacturacionInfo.cs" />
     <Compile Include="Models\Categoria\CategoriaDetailsVm.cs" />
     <Compile Include="Models\Categoria\CategoriaEditVm.cs" />
     <Compile Include="Models\Categoria\CategoriaListVm.cs" />
@@ -251,6 +253,10 @@
     <Content Include="Views\Productos\Create.cshtml" />
     <Content Include="Views\Productos\Edit.cshtml" />
     <Content Include="Views\Carrito\Index.cshtml" />
+    <Content Include="Views\Carrito\ResumenCarrito.cshtml" />
+    <Content Include="Views\Carrito\DireccionEnvio.cshtml" />
+    <Content Include="Views\Carrito\FacturacionInfo.cshtml" />
+    <Content Include="Views\Carrito\OrdenCompleta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
