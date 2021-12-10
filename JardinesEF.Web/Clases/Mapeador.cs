@@ -178,7 +178,7 @@ namespace JardinesEF.Web.Clases
                 NombreCategoria=p.Categoria.NombreCategoria,
                 NombreProveedor=p.Proveedor.NombreProveedor,
                 PrecioUnitario=p.PrecioUnitario,
-                UnidadesEnStock=p.UnidadesEnStock,
+                StockDisponible=p.UnidadesEnStock-p.UnidadesEnPedido,
                 Suspendido=p.Suspendido,
                 Imagen=p.Imagen
             };

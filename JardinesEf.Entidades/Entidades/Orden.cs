@@ -17,7 +17,12 @@ namespace JardinesEf.Entidades.Entidades
         public DateTime? FechaEnvío { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<DetalleOrden> DetalleOrdenes { get; set; }
-
         public decimal TotalVenta => DetalleOrdenes.Sum(d => d.PrecioUnitario * (decimal)d.Cantidad);
+
+        public string DireccionEnvio { get; set; }
+        public string CodigoPostalEnvio { get; set; }
+        public int PaisEnvioId { get; set; }
+        public int CiudadEnvioId { get; set; }
+
     }
 }

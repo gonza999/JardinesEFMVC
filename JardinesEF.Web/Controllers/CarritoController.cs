@@ -1,4 +1,5 @@
-﻿using JardinesEF.Servicios.Facades;
+﻿using JardinesEf.Entidades.Entidades;
+using JardinesEF.Servicios.Facades;
 using JardinesEF.Web.Clases;
 using JardinesEF.Web.Models.Carrito;
 using JardinesEF.Web.Models.Producto;
@@ -16,14 +17,17 @@ namespace JardinesEF.Web.Controllers
         private readonly IPaisesServicios _servicioPaises;
         private readonly IClientesServicios _servicioClientes;
         private readonly ICiudadesServicios _servicioCiudades;
+        private readonly IOrdenesServicios _servicioOrdenes;
 
-        public CarritoController(IProductosServicios servicio,IPaisesServicios servicioPaises,
-            IClientesServicios servicioClientes,ICiudadesServicios servicioCiudades)
+        public CarritoController(IProductosServicios servicio, IPaisesServicios servicioPaises,
+            IClientesServicios servicioClientes, ICiudadesServicios servicioCiudades,
+            IOrdenesServicios servicioOrdenes)
         {
             _servicio = servicio;
             _servicioPaises = servicioPaises;
             _servicioCiudades = servicioCiudades;
             _servicioClientes = servicioClientes;
+            _servicioOrdenes = servicioOrdenes;
         }
         // GET: Carrito
         public CarritoController()
@@ -46,13 +50,15 @@ namespace JardinesEF.Web.Controllers
             if (productoVm != null)
             {
                 GetCart().AddItem(productoVm, 1);
+                _servicio.SetearReservarProducto(productoVm.ProductoId, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToRouteResult RemoveFromCart(int productoId, string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(int productoId, int cantidad, string returnUrl)
         {
             GetCart().RemoveItem(productoId);
+            _servicio.SetearReservarProducto(productoId, -cantidad);
             return RedirectToAction("Index", new { returnUrl });
         }
 
@@ -66,8 +72,9 @@ namespace JardinesEF.Web.Controllers
             }
             return carrito;
         }
-        public PartialViewResult ResumenCarrito(CarritoModel carrito)
+        public PartialViewResult ResumenCarrito()
         {
+            var carrito = GetCart();
             return PartialView(carrito);
         }
         public ActionResult DireccionEnvio()
@@ -112,6 +119,27 @@ namespace JardinesEF.Web.Controllers
                 carrito.FacturacionInfo = info;
                 //Ver en servicio
                 //ProcessOrder(cart);
+                try
+                {
+                    Orden orden = new Orden()
+                    {
+                        ClienteId = carrito.FacturacionInfo.ClienteId,
+                        FechaCompra = DateTime.Now,
+                        FechaEntrega = DateTime.Now.AddDays(5),
+                        DireccionEnvio=carrito.DireccionEnvio.Direccion,
+                        CodigoPostalEnvio=carrito.DireccionEnvio.CodigoPostal,
+                        PaisEnvioId=carrito.DireccionEnvio.PaisId,
+                        CiudadEnvioId=carrito.DireccionEnvio.CiudadId,
+                        DetalleOrdenes=ObtenerDetalleOrdenes(carrito)
+                    };
+                    _servicioOrdenes.Guardar(orden);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty,ex.Message);
+                    info.Clientes = Mapeador.ConstruirListaClienteVm(_servicioClientes.GetLista());
+                    return View(info);
+                }
                 carrito.Clear();
                 return View("OrdenCompleta");
             }
@@ -123,11 +151,38 @@ namespace JardinesEF.Web.Controllers
             }
         }
 
+        private ICollection<DetalleOrden> ObtenerDetalleOrdenes(CarritoModel carrito)
+        {
+            var lista =new List<DetalleOrden>();
+            foreach (var c in carrito.Items)
+            {
+                DetalleOrden detalleOrden = new DetalleOrden()
+                {
+                    ProductoId=c.Producto.ProductoId,
+                    PrecioUnitario=c.Producto.PrecioUnitario,
+                    Cantidad=c.Cantidad
+                };
+                lista.Add(detalleOrden);
+            }
+            return lista;
+        }
+
         public JsonResult GetCities(int paisId)
         {
             //Database.Configuration.ProxyCreationEnabled = false;
             var ciudadesVm = Mapeador.ConstruirListaCiudadVm(_servicioCiudades.GetLista(paisId));
             return Json(ciudadesVm);
+        }
+
+        public ActionResult CancelOrder()
+        {
+            var cart = GetCart();
+            foreach (var c in cart.Items)
+            {
+                _servicio.SetearReservarProducto(c.Producto.ProductoId,-c.Cantidad);
+            }
+            cart.Clear();
+            return RedirectToAction("Index","Home");
         }
 
     }
